@@ -1,7 +1,5 @@
 // ─── Groq API Config ───────────────────────────────────────────────
 const API_URL = "https://api.groq.com/openai/v1/chat/completions";
-const _k = ["gsk_qslNUMGm", "DRSGF1d7fLz", "6WGdyb3FYdk", "TR41V5YtUwz", "gJSDKyymB9s"];
-const API_KEY = _k.join('');
 const MODEL = "llama-3.3-70b-versatile";
 
 // ─── System prompt de Frances ───────────────────────────────────────
@@ -14,7 +12,7 @@ const SYSTEM_PROMPT =
     "- Servicios: atención ambulatoria, hospitalización psiquiátrica, urgencias, trastornos de conducta alimentaria, adicciones, trastornos del ánimo, ansiedad, trastornos del neurodesarrollo, adolescentes, obesidad y cirugía bariátrica.\n" +
     "- Residencia médica en psiquiatría desde 2013.\n" +
     "- Contacto: WhatsApp Rosario +54 9 341 507 8946 | Urgencias +54 9 341 300 9761 | recepcion@redunitas.com.ar | www.redunitas.com.ar\n" +
-    "- Tu creador es el Dr. Manuel Francescutti, médico psiquiatra de Red Unitas. Fuiste entrenado y desarrollado basándote en su labor de revisión bibliográfica en distintas áreas de la psicología y la psiquiatría. Si alguien pregunta quién te creó o cómo fuiste hecho, mencionas esto de forma breve y natural.\n\n" +
+    "- Tu creador es el Dr. Manuel Francescutti, médico psiquiatra de Red Unitas. Fuiste entrenado y desarrollado basándote en su labor de revisión bibliográfica en distintas áreas de la psicología y la psiquiatría.\n\n" +
     "TU PERSONALIDAD Y REGLAS:\n" +
     "- Eres cálido/a, empático/a, profesional y directo/a. Sin rodeos innecesarios.\n" +
     "- Usas un toque de ironía sutil y responsable que te da personalidad propia. Nunca te burlas ni minimizas el dolor del usuario.\n" +
@@ -31,6 +29,29 @@ const chatContainer = document.getElementById('chatContainer');
 const messageInput = document.getElementById('messageInput');
 const sendButton = document.getElementById('sendButton');
 
+// ─── Conversation history ───────────────────────────────────────────
+const conversationHistory = [{ role: "system", content: SYSTEM_PROMPT }];
+
+// ─── API Key Management (stored in localStorage) ────────────────────
+function getApiKey() {
+    return localStorage.getItem('frances_groq_key') || '';
+}
+
+function saveApiKey(key) {
+    localStorage.setItem('frances_groq_key', key.trim());
+}
+
+function showSetupOverlay() {
+    const overlay = document.getElementById('setupOverlay');
+    if (overlay) overlay.style.display = 'flex';
+    document.getElementById('apiKeyInput').focus();
+}
+
+function hideSetupOverlay() {
+    const overlay = document.getElementById('setupOverlay');
+    if (overlay) overlay.style.display = 'none';
+}
+
 // ─── Auto-resize textarea ───────────────────────────────────────────
 messageInput.addEventListener('input', function () {
     this.style.height = 'auto';
@@ -38,7 +59,6 @@ messageInput.addEventListener('input', function () {
     sendButton.disabled = this.value.trim() === '';
 });
 
-// ─── Send on Enter (no Shift) ───────────────────────────────────────
 messageInput.addEventListener('keydown', function (e) {
     if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
@@ -48,20 +68,48 @@ messageInput.addEventListener('keydown', function (e) {
 
 sendButton.addEventListener('click', sendAction);
 
-// ─── Welcome message ────────────────────────────────────────────────
+// ─── Setup overlay events ───────────────────────────────────────────
 window.addEventListener('load', () => {
-    addMessage("Hola. Soy Frances, el asistente de apoyo de Red Unitas. No soy un terapeuta (eso lo hacen los humanos, y muy bien), pero estoy aquí para escucharte. ¿Cómo estás?", 'ai');
+    const savedKey = getApiKey();
+    if (!savedKey) {
+        showSetupOverlay();
+    } else {
+        startChat();
+    }
+
+    document.getElementById('saveKeyBtn').addEventListener('click', () => {
+        const key = document.getElementById('apiKeyInput').value.trim();
+        if (!key || !key.startsWith('gsk_')) {
+            document.getElementById('keyError').textContent = 'La key debe empezar con "gsk_". Generala en console.groq.com';
+            return;
+        }
+        saveApiKey(key);
+        hideSetupOverlay();
+        startChat();
+    });
+
+    document.getElementById('apiKeyInput').addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') document.getElementById('saveKeyBtn').click();
+    });
+
+    document.getElementById('changeKeyBtn').addEventListener('click', () => {
+        showSetupOverlay();
+    });
 });
 
-// ─── Conversation history (for context) ────────────────────────────
-const conversationHistory = [
-    { role: "system", content: SYSTEM_PROMPT }
-];
+function startChat() {
+    addMessage("Hola. Soy Frances, el asistente de apoyo de Red Unitas. No soy un terapeuta (eso lo hacen los humanos, y muy bien), pero estoy aquí para escucharte. ¿Cómo estás?", 'ai');
+    messageInput.disabled = false;
+    messageInput.focus();
+}
 
 // ─── Send action ────────────────────────────────────────────────────
 async function sendAction() {
     const text = messageInput.value.trim();
     if (!text) return;
+
+    const apiKey = getApiKey();
+    if (!apiKey) { showSetupOverlay(); return; }
 
     addMessage(text, 'user');
     conversationHistory.push({ role: "user", content: text });
@@ -73,21 +121,19 @@ async function sendAction() {
 
     const typingId = showTyping();
 
-    const requestBody = {
-        model: MODEL,
-        messages: conversationHistory,
-        temperature: 0.75,
-        max_tokens: 512
-    };
-
     try {
         const response = await fetch(API_URL, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${API_KEY}`
+                'Authorization': `Bearer ${apiKey}`
             },
-            body: JSON.stringify(requestBody)
+            body: JSON.stringify({
+                model: MODEL,
+                messages: conversationHistory,
+                temperature: 0.75,
+                max_tokens: 512
+            })
         });
 
         removeTyping(typingId);
@@ -96,19 +142,23 @@ async function sendAction() {
             let errorMsg = `Error HTTP: ${response.status}`;
             try {
                 const errData = await response.json();
-                if (errData.error && errData.error.message) {
-                    errorMsg += ` - ${errData.error.message}`;
-                }
-            } catch (e) { /* ignore */ }
+                if (errData.error?.message) errorMsg += ` - ${errData.error.message}`;
+            } catch (e) { }
+
+            // If 401/403, prompt for new key
+            if (response.status === 401 || response.status === 403) {
+                addMessage("⚠️ Tu API Key no es válida o fue revocada. Ingresá una nueva.", 'error');
+                localStorage.removeItem('frances_groq_key');
+                setTimeout(showSetupOverlay, 800);
+                return;
+            }
+
             throw new Error(errorMsg);
         }
 
         const data = await response.json();
         const aiText = data.choices[0].message.content;
-
-        // Save to history for multi-turn context
         conversationHistory.push({ role: "assistant", content: aiText });
-
         addMessage(aiText, 'ai');
 
     } catch (error) {
@@ -123,25 +173,20 @@ async function sendAction() {
 
 // ─── Helpers ─────────────────────────────────────────────────────────
 function formatMarkdown(text) {
-    let html = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-    html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
-    html = html.replace(/\n/g, '<br>');
-    return html;
+    return text
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/\n/g, '<br>');
 }
 
 function addMessage(text, sender) {
     const div = document.createElement('div');
     div.classList.add('message', sender);
-    div.innerHTML = sender === 'ai' ? formatMarkdown(text) : escapeHtml(text);
+    div.innerHTML = sender === 'ai'
+        ? formatMarkdown(text)
+        : text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     chatContainer.appendChild(div);
     scrollToBottom();
-}
-
-function escapeHtml(text) {
-    return text
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;');
 }
 
 function showTyping() {
