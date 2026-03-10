@@ -5,33 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Frances - Asistente de Apoyo | Red Unitas</title>
-    <meta name="description" content="Frances es el asistente de apoyo emocional de Red Unitas.">
+    <meta name="description"
+        content="Frances es el asistente de apoyo emocional de Red Unitas. Estamos aquí para escucharte.">
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
-
-    <!-- Setup overlay -->
-    <div id="setupOverlay" class="overlay" style="display:none">
-        <div class="overlay-card">
-            <img src="https://www.redunitas.com.ar/images/logo_header.png" alt="Red Unitas" class="overlay-logo"
-                onerror="this.style.display='none'">
-            <h2>Configurar Frances</h2>
-            <p>Para usar el asistente necesitás una <strong>API Key de Groq</strong> (gratuita).</p>
-            <ol>
-                <li>Creá una cuenta en <a href="https://console.groq.com" target="_blank">console.groq.com</a></li>
-                <li>Andá a <strong>API Keys → Create API Key</strong></li>
-                <li>Pegá la key aquí abajo</li>
-            </ol>
-            <input type="password" id="apiKeyInput" placeholder="gsk_..." autocomplete="off" spellcheck="false">
-            <p id="keyError" class="key-error"></p>
-            <button class="overlay-btn" onclick="saveAndStart()">Guardar y empezar</button>
-            <p class="overlay-note">La key se guarda solo en tu navegador. Nunca se sube a ningún servidor.</p>
-        </div>
-    </div>
-
-    <!-- Main app -->
     <div class="app-container">
         <header class="app-header">
             <div class="header-brand">
@@ -41,17 +21,14 @@
                     <span class="logo-text">RED <strong>UNITAS</strong></span>
                 </div>
             </div>
-            <div class="header-right">
-                <div class="header-assistant">
-                    <div class="assistant-avatar">
-                        <div class="avatar-dot pulse"></div>
-                    </div>
-                    <div class="assistant-info">
-                        <span class="assistant-name">Frances</span>
-                        <span class="assistant-status">Asistente de apoyo · En línea</span>
-                    </div>
+            <div class="header-assistant">
+                <div class="assistant-avatar">
+                    <div class="avatar-dot pulse"></div>
                 </div>
-                <button class="key-btn" title="Cambiar API Key" onclick="showSetupOverlay()">⚙️</button>
+                <div class="assistant-info">
+                    <span class="assistant-name">Frances</span>
+                    <span class="assistant-status">Asistente de apoyo · En línea</span>
+                </div>
             </div>
         </header>
 
@@ -74,7 +51,6 @@
             </p>
         </footer>
     </div>
-
     <script src="script.js"></script>
 </body>
 
