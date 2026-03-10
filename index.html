@@ -5,15 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Frances - Asistente de Apoyo | Red Unitas</title>
-    <meta name="description"
-        content="Frances es el asistente de apoyo emocional de Red Unitas. Estamos aquí para escucharte.">
+    <meta name="description" content="Frances es el asistente de apoyo emocional de Red Unitas.">
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
-    <!-- ── Setup overlay (shown on first visit) ── -->
+    <!-- Setup overlay -->
     <div id="setupOverlay" class="overlay" style="display:none">
         <div class="overlay-card">
             <img src="https://www.redunitas.com.ar/images/logo_header.png" alt="Red Unitas" class="overlay-logo"
@@ -27,12 +26,12 @@
             </ol>
             <input type="password" id="apiKeyInput" placeholder="gsk_..." autocomplete="off" spellcheck="false">
             <p id="keyError" class="key-error"></p>
-            <button id="saveKeyBtn" class="overlay-btn">Guardar y empezar</button>
+            <button class="overlay-btn" onclick="saveAndStart()">Guardar y empezar</button>
             <p class="overlay-note">La key se guarda solo en tu navegador. Nunca se sube a ningún servidor.</p>
         </div>
     </div>
 
-    <!-- ── Main app ── -->
+    <!-- Main app -->
     <div class="app-container">
         <header class="app-header">
             <div class="header-brand">
@@ -52,7 +51,7 @@
                         <span class="assistant-status">Asistente de apoyo · En línea</span>
                     </div>
                 </div>
-                <button id="changeKeyBtn" class="key-btn" title="Cambiar API Key">⚙️</button>
+                <button class="key-btn" title="Cambiar API Key" onclick="showSetupOverlay()">⚙️</button>
             </div>
         </header>
 
