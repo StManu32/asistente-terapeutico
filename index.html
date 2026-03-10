@@ -12,6 +12,27 @@
 </head>
 
 <body>
+
+    <!-- ── Setup overlay (shown on first visit) ── -->
+    <div id="setupOverlay" class="overlay" style="display:none">
+        <div class="overlay-card">
+            <img src="https://www.redunitas.com.ar/images/logo_header.png" alt="Red Unitas" class="overlay-logo"
+                onerror="this.style.display='none'">
+            <h2>Configurar Frances</h2>
+            <p>Para usar el asistente necesitás una <strong>API Key de Groq</strong> (gratuita).</p>
+            <ol>
+                <li>Creá una cuenta en <a href="https://console.groq.com" target="_blank">console.groq.com</a></li>
+                <li>Andá a <strong>API Keys → Create API Key</strong></li>
+                <li>Pegá la key aquí abajo</li>
+            </ol>
+            <input type="password" id="apiKeyInput" placeholder="gsk_..." autocomplete="off" spellcheck="false">
+            <p id="keyError" class="key-error"></p>
+            <button id="saveKeyBtn" class="overlay-btn">Guardar y empezar</button>
+            <p class="overlay-note">La key se guarda solo en tu navegador. Nunca se sube a ningún servidor.</p>
+        </div>
+    </div>
+
+    <!-- ── Main app ── -->
     <div class="app-container">
         <header class="app-header">
             <div class="header-brand">
@@ -21,24 +42,25 @@
                     <span class="logo-text">RED <strong>UNITAS</strong></span>
                 </div>
             </div>
-            <div class="header-assistant">
-                <div class="assistant-avatar">
-                    <div class="avatar-dot pulse"></div>
+            <div class="header-right">
+                <div class="header-assistant">
+                    <div class="assistant-avatar">
+                        <div class="avatar-dot pulse"></div>
+                    </div>
+                    <div class="assistant-info">
+                        <span class="assistant-name">Frances</span>
+                        <span class="assistant-status">Asistente de apoyo · En línea</span>
+                    </div>
                 </div>
-                <div class="assistant-info">
-                    <span class="assistant-name">Frances</span>
-                    <span class="assistant-status">Asistente de apoyo · En línea</span>
-                </div>
+                <button id="changeKeyBtn" class="key-btn" title="Cambiar API Key">⚙️</button>
             </div>
         </header>
 
-        <main class="chat-container" id="chatContainer">
-            <!-- Los mensajes aparecerán aquí -->
-        </main>
+        <main class="chat-container" id="chatContainer"></main>
 
         <footer class="input-container">
             <div class="input-wrapper">
-                <textarea id="messageInput" placeholder="Escribí tu mensaje..." rows="1" autofocus></textarea>
+                <textarea id="messageInput" placeholder="Escribí tu mensaje..." rows="1" disabled></textarea>
                 <button id="sendButton" class="send-btn" aria-label="Enviar mensaje" disabled>
                     <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.5" fill="none"
                         stroke-linecap="round" stroke-linejoin="round">
@@ -47,10 +69,13 @@
                     </svg>
                 </button>
             </div>
-            <p class="footer-note">Frances no reemplaza la atención profesional · <a href="https://www.redunitas.com.ar"
-                    target="_blank">redunitas.com.ar</a></p>
+            <p class="footer-note">
+                Frances no reemplaza la atención profesional ·
+                <a href="https://www.redunitas.com.ar" target="_blank">redunitas.com.ar</a>
+            </p>
         </footer>
     </div>
+
     <script src="script.js"></script>
 </body>
 
