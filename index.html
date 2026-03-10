@@ -1,39 +1,57 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asistente Terapéutico - Web</title>
+    <title>Frances - Asistente de Apoyo | Red Unitas</title>
+    <meta name="description"
+        content="Frances es el asistente de apoyo emocional de Red Unitas. Estamos aquí para escucharte.">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
     <div class="app-container">
         <header class="app-header">
-            <div class="header-info">
-                <div class="avatar-container">
-                    <div class="avatar pulse"></div>
+            <div class="header-brand">
+                <img src="https://www.redunitas.com.ar/images/logo_header.png" alt="Red Unitas" class="logo"
+                    onerror="this.style.display='none'; document.querySelector('.logo-fallback').style.display='flex'">
+                <div class="logo-fallback" style="display:none">
+                    <span class="logo-text">RED <strong>UNITAS</strong></span>
                 </div>
-                <div>
-                    <h1>Asistente Terapéutico</h1>
-                    <p class="status">En línea - Listo para escuchar</p>
+            </div>
+            <div class="header-assistant">
+                <div class="assistant-avatar">
+                    <div class="avatar-dot pulse"></div>
+                </div>
+                <div class="assistant-info">
+                    <span class="assistant-name">Frances</span>
+                    <span class="assistant-status">Asistente de apoyo · En línea</span>
                 </div>
             </div>
         </header>
-        
+
         <main class="chat-container" id="chatContainer">
             <!-- Los mensajes aparecerán aquí -->
         </main>
 
         <footer class="input-container">
             <div class="input-wrapper">
-                <textarea id="messageInput" placeholder="Escribe tu mensaje aquí..." rows="1" autofocus></textarea>
+                <textarea id="messageInput" placeholder="Escribí tu mensaje..." rows="1" autofocus></textarea>
                 <button id="sendButton" class="send-btn" aria-label="Enviar mensaje" disabled>
-                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.5" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
                 </button>
             </div>
+            <p class="footer-note">Frances no reemplaza la atención profesional · <a href="https://www.redunitas.com.ar"
+                    target="_blank">redunitas.com.ar</a></p>
         </footer>
     </div>
     <script src="script.js"></script>
 </body>
+
 </html>
