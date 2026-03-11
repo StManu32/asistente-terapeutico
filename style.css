@@ -538,3 +538,45 @@ textarea::placeholder {
     color: var(--text-muted) !important;
     opacity: .7;
 }
+/* --- Feedback: message wrapper --- */
+.message-wrapper { display: flex; flex-direction: column; gap: 4px; }
+.message-wrapper.ai    { align-items: flex-start; }
+.message-wrapper.user  { align-items: flex-end; }
+.message-wrapper.error { align-items: center; }
+
+/* --- Thumbs row --- */
+.thumbs-row { display: flex; gap: 4px; padding-left: 18px; opacity: 0; transition: opacity .2s; }
+.message-wrapper:hover .thumbs-row { opacity: 1; }
+.thumb-btn { background: transparent; border: 1px solid transparent; border-radius: 6px; font-size: .82rem; cursor: pointer; padding: 2px 6px; color: var(--text-muted); transition: background .15s, border-color .15s, transform .1s; }
+.thumb-btn:hover:not(:disabled) { background: rgba(255,255,255,.07); border-color: var(--ru-border); transform: scale(1.15); }
+.thumb-btn:disabled { cursor: default; }
+.thumb-btn.thumb-selected { background: rgba(75,174,138,.15); border-color: rgba(75,174,138,.4); }
+
+/* --- Header rating button --- */
+.rating-header-btn { background: transparent; border: 1px solid var(--ru-border); color: var(--text-muted); border-radius: 8px; padding: 5px 10px; font-size: .78rem; font-family: inherit; cursor: pointer; transition: background .15s, color .15s, border-color .15s; white-space: nowrap; }
+.rating-header-btn:hover { background: rgba(255,255,255,.07); color: var(--ru-orange); border-color: rgba(224,123,58,.4); }
+
+/* --- Rating modal overlay --- */
+.rating-overlay { position: fixed; inset: 0; background: rgba(10,12,20,.75); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 200; display: flex; align-items: center; justify-content: center; padding: 20px; animation: fadeInOverlay .25s ease; }
+@keyframes fadeInOverlay { from { opacity:0; } to { opacity:1; } }
+.rating-card { position: relative; background: rgba(22,28,44,.97); border: 1px solid var(--ru-border); border-radius: 20px; padding: 36px 32px 28px; max-width: 380px; width: 100%; box-shadow: 0 24px 64px rgba(0,0,0,.6); display: flex; flex-direction: column; align-items: center; gap: 14px; animation: slideUpCard .3s ease; }
+@keyframes slideUpCard { from { transform: translateY(20px); opacity:0; } to { transform: translateY(0); opacity:1; } }
+.rating-close { position: absolute; top: 12px; right: 14px; background: transparent; border: none; color: var(--text-muted); font-size: 1.3rem; cursor: pointer; transition: color .15s; }
+.rating-close:hover { color: var(--text-main); }
+.rating-title { font-size: 1.1rem; font-weight: 600; color: var(--text-main); text-align: center; }
+.rating-subtitle { font-size: .82rem; color: var(--text-muted); text-align: center; }
+
+/* --- Stars --- */
+.stars-row { display: flex; gap: 6px; }
+.star-btn { background: transparent; border: none; font-size: 2rem; cursor: pointer; color: rgba(255,255,255,.15); transition: color .15s, transform .1s; line-height: 1; }
+.star-btn:hover, .star-btn.star-hover { color: var(--ru-orange); transform: scale(1.2); }
+.star-btn.star-active { color: var(--ru-orange); }
+
+/* --- Comment & Submit --- */
+.rating-comment { width: 100%; background: rgba(255,255,255,.05); border: 1px solid var(--ru-border); border-radius: 10px; padding: 10px 14px; color: var(--text-main); font-family: inherit; font-size: .85rem; resize: none; outline: none; transition: border-color .2s; }
+.rating-comment:focus { border-color: rgba(206,93,76,.5); }
+.rating-comment::placeholder { color: var(--text-muted); }
+.rating-submit { background: linear-gradient(135deg, var(--ru-coral), var(--ru-orange)); color: #fff; border: none; border-radius: 10px; padding: 10px 28px; font-family: inherit; font-size: .9rem; font-weight: 600; cursor: pointer; transition: transform .15s, box-shadow .15s, opacity .2s; box-shadow: 0 4px 16px rgba(206,93,76,.35); }
+.rating-submit:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(206,93,76,.5); }
+.rating-submit:disabled { opacity: .45; cursor: not-allowed; box-shadow: none; }
+.rating-thanks { min-height: 120px; justify-content: center; }
