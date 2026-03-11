@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asistente de Facturación | Psicored</title>
+    <meta name="description"
+        content="Asistente de facturación a obras sociales de Psicored. Guía paso a paso para psicólogos y profesionales de la salud mental.">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="header-brand">
+                <div class="logo-wordmark">
+                    <span class="logo-psi">Psico</span><span class="logo-red">red</span>
+                </div>
+                <span class="header-divider">|</span>
+                <span class="header-subtitle">Facturación</span>
+            </div>
+            <div class="header-right">
+                <button id="openRatingBtn" class="rating-header-btn" title="Calificar esta conversación" onclick="showRatingModal()">
+                    &#9733; Calificar
+                </button>
+                <div class="header-assistant">
+                    <div class="assistant-avatar">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="3" width="20" height="14" rx="2"/><polyline points="8 21 12 17 16 21"/><line x1="12" y1="17" x2="12" y2="10"/>
+                        </svg>
+                        <div class="avatar-dot pulse"></div>
+                    </div>
+                    <div class="assistant-info">
+                        <span class="assistant-name">Asistente de Facturación</span>
+                        <span class="assistant-status">En línea · Psicored</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="chat-container" id="chatContainer"></main>
+
+        <footer class="input-container">
+            <div class="input-wrapper">
+                <textarea id="messageInput" placeholder="Escribí tu consulta sobre facturación..." rows="1" disabled></textarea>
+                <button id="sendButton" class="send-btn" aria-label="Enviar mensaje" disabled>
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.5" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                </button>
+            </div>
+            <p class="footer-note">
+                Este asistente es una guía orientativa. Ante dudas complejas, consultá con administración ·
+                <a href="https://psicored.com.ar" target="_blank">psicored.com.ar</a>
+            </p>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
